@@ -31,7 +31,8 @@ wp_add_dashboard_widget('custom_help_widget', 'Theme Support', 'custom_dashboard
 }
  
 function custom_dashboard_help() {
-echo '<p>Welcome to Custom Blog Theme! Need help? Contact the developer <a href="mailto:suporte@ex2.com.br">here</a>. For WordPress Tutorials visit: <a href="https://www.betarex.com.br" target="_blank">BetaRex</a></p>';
+echo '<p>Welcome to Custom Blog Theme! Need help? Contact the developer <a href="mailto:suporte@ex2.com.br">here</a>. 
+For WordPress Tutorials visit: <a href="https://www.betarex.com.br" target="_blank">BetaRex</a></p>';
 }
 
 add_filter('login_redirect', 'admin_default_page');
