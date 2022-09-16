@@ -58,7 +58,7 @@ $invalidurl = false;
             ?>
             <div class="post">
                 <div class="post-head">
-                    <p><a class="feed_title" href="<?php echo $link; ?>"><?php echo $title; ?></a></p>
+                    <p><a class="feed_title" href="<?php echo $link; ?>" target="_blank"><?php echo $title; ?></a></p>
                     <span><?php echo $pubDate; ?></span>
                 </div>
                 <div class="post-content">
