@@ -27,7 +27,7 @@ add_action('wp_dashboard_setup', 'welcome_widgets');
 function welcome_widgets() {
 global $wp_meta_boxes;
  
-wp_add_dashboard_widget('custom_help_widget', 'Theme Support', 'custom_dashboard_help');
+wp_add_dashboard_widget('custom_help_widget', 'Novidades EX2', 'custom_dashboard_help');
 }
  
 function custom_dashboard_help() {
