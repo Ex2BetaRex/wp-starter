@@ -3,7 +3,7 @@
 Plugin Name:  WP StarterPack
 Plugin URI:   https://www.ex2.com.br
 Description:  Disable XML-RPC - Custom Login - Redirect Login. 
-Version:      1.0
+Version:      1.2
 Author:       Arthur Maia 
 Author URI:   https://github.com/arthurmaia94
 License:      GPL2
@@ -32,7 +32,7 @@ wp_add_dashboard_widget('custom_help_widget', 'Novidades EX2', 'custom_dashboard
  
 function custom_dashboard_help() {
 echo '<p>Welcome to Custom Blog Theme! Need help? Contact the developer <a href="mailto:suporte@ex2.com.br">here</a>. 
-For WordPress Tutorials visit: <a href="https://www.betarex.com.br" target="_blank">BetaRex</a></p>';
+For WordPress Tutorials visit: <a href="https://www.betarex.com.br" target="_blank">BetaRex</a></p><hr />';
 
 $url = "https://www.ex2.com.br/feed/rss/";
 $invalidurl = false;
@@ -45,39 +45,33 @@ $invalidurl = false;
 
     $i=0;
     if(!empty($feeds)){
+        $site = $feeds->channel->title;
+        $sitelink = $feeds->channel->link;
+        foreach ($feeds->channel->item as $item) {
+            $title = $item->title;
+            $link = $item->link;
+            $description = $item->description;
+            $postDate = $item->pubDate;
+            $pubDate = date('D, d M Y',strtotime($postDate));
 
-    $site = $feeds->channel->title;
-    $sitelink = $feeds->channel->link;
+            if($i>=5) break;
+            ?>
+            <div class="post">
+                <div class="post-head">
+                    <p><a class="feed_title" href="<?php echo $link; ?>"><?php echo $title; ?></a></p>
+                    <span><?php echo $pubDate; ?></span>
+                </div>
+                <div class="post-content">
+                <?php echo implode(' ', array_slice(explode(' ', $description), 0, 20)) . "..."; ?> <a href="<?php echo $link; ?>">Leia Mais</a>
+                </div>
+            </div>
 
-    echo "<h2>".$site."</h2>";
-    foreach ($feeds->channel->item as $item) {
-
-    $title = $item->title;
-    $link = $item->link;
-    $description = $item->description;
-    $postDate = $item->pubDate;
-    $pubDate = date('D, d M Y',strtotime($postDate));
-
-
-    if($i>=5) break;
-    ?>
-    <div class="post">
-        <div class="post-head">
-        <h2><a class="feed_title" href="<?php echo $link; ?>"><?php echo $title; ?></a></h2>
-        <span><?php echo $pubDate; ?></span>
-        </div>
-        <div class="post-content">
-        <?php echo implode(' ', array_slice(explode(' ', $description), 0, 20)) . "..."; ?> <a href="<?php echo $link; ?>">Read more</a>
-        </div>
-    </div>
-
-    <?php
-        $i++;
-    }
+            <?php $i++;
+        }
     }else{
-    if(!$invalidurl){
-        echo "<h2>No item found</h2>";
-    }
+        if(!$invalidurl){
+            echo "<h2>No item found</h2>";
+        }
     }
 }
 
