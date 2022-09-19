@@ -19,23 +19,21 @@ add_filter( 'xmlrpc_enabled', '__return_false' );
 add_filter( 'wp_headers', 'disable_x_pingback' );
 function disable_x_pingback( $headers ) {
     unset( $headers['X-Pingback'] );
-
-return $headers;
+    return $headers;
 }
 
 add_action('wp_dashboard_setup', 'welcome_widgets');
 function welcome_widgets() {
-global $wp_meta_boxes;
- 
-wp_add_dashboard_widget('custom_help_widget', 'Novidades EX2', 'custom_dashboard_help');
+    global $wp_meta_boxes;
+    wp_add_dashboard_widget('custom_help_widget', 'Novidades EX2', 'custom_dashboard_help');
 }
  
 function custom_dashboard_help() {
-echo '<p>Welcome to Custom Blog Theme! Need help? Contact the developer <a href="mailto:suporte@ex2.com.br">here</a>. 
-For WordPress Tutorials visit: <a href="https://www.betarex.com.br" target="_blank">BetaRex</a></p><hr />';
+    echo '<p>Welcome to Custom Blog Theme! Need help? Contact the developer <a href="mailto:suporte@ex2.com.br">here</a>. 
+    For WordPress Tutorials visit: <a href="https://www.betarex.com.br" target="_blank">BetaRex</a></p><hr />';
 
-$url = "https://www.ex2.com.br/feed/rss/";
-$invalidurl = false;
+    $url = "https://www.ex2.com.br/feed/rss/";
+    $invalidurl = false;
     if(@simplexml_load_file($url)){
         $feeds = simplexml_load_file($url);
     }else{
@@ -77,8 +75,8 @@ $invalidurl = false;
 
 add_filter('login_redirect', 'admin_default_page');
 function admin_default_page() {
-  $home = get_home_url();
-  return $home;
+    $home = get_home_url();
+    return $home;
 }
 
 function cutom_login_logo() {
