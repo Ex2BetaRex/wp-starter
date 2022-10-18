@@ -2,7 +2,7 @@
 /*
 Plugin Name:  WP StarterPack
 Plugin URI:   https://www.ex2.com.br
-Description:  Disable XML-RPC - Custom Login - Redirect Login. 
+Description:  Remove WooCommerce tabs, Display Variation Price, Disable XML-RPC - Custom Login - Redirect Login. 
 Version:      1.2
 Author:       Arthur Maia 
 Author URI:   https://github.com/arthurmaia94
@@ -12,6 +12,18 @@ Text Domain:  wp-starter-pack
 Domain Path:  /languages
 */
 
+// WooCommerce
+add_filter( 'woocommerce_product_tabs', 'my_remove_product_tabs', 98 );
+function my_remove_product_tabs( $tabs ) {
+  unset( $tabs['additional_information'] );
+  unset( $tabs['reviews'] );
+  return $tabs;
+}
+add_filter( 'woocommerce_format_price_range', 'fa_custom_range_price', 10, 3 );
+function fa_custom_range_price( $price, $from, $to ) {
+  return sprintf( 'A partir de %s', wc_price( $from ) );
+}
+// Fim WooCommerce
 // Disable use XML-RPC
 add_filter( 'xmlrpc_enabled', '__return_false' );
 
@@ -19,21 +31,23 @@ add_filter( 'xmlrpc_enabled', '__return_false' );
 add_filter( 'wp_headers', 'disable_x_pingback' );
 function disable_x_pingback( $headers ) {
     unset( $headers['X-Pingback'] );
-    return $headers;
+
+return $headers;
 }
 
 add_action('wp_dashboard_setup', 'welcome_widgets');
 function welcome_widgets() {
-    global $wp_meta_boxes;
-    wp_add_dashboard_widget('custom_help_widget', 'Novidades EX2', 'custom_dashboard_help');
+global $wp_meta_boxes;
+ 
+wp_add_dashboard_widget('custom_help_widget', 'Novidades EX2', 'custom_dashboard_help');
 }
  
 function custom_dashboard_help() {
-    echo '<p>Welcome to Custom Blog Theme! Need help? Contact the developer <a href="mailto:suporte@ex2.com.br">here</a>. 
-    For WordPress Tutorials visit: <a href="https://www.betarex.com.br" target="_blank">BetaRex</a></p><hr />';
+echo '<p>Welcome to Custom Blog Theme! Need help? Contact the developer <a href="mailto:suporte@ex2.com.br">here</a>. 
+For WordPress Tutorials visit: <a href="https://www.betarex.com.br" target="_blank">BetaRex</a></p><hr />';
 
-    $url = "https://www.ex2.com.br/feed/rss/";
-    $invalidurl = false;
+$url = "https://www.ex2.com.br/feed/rss/";
+$invalidurl = false;
     if(@simplexml_load_file($url)){
         $feeds = simplexml_load_file($url);
     }else{
@@ -57,11 +71,11 @@ function custom_dashboard_help() {
             <div class="post">
                 <div class="post-head">
                     <p><a class="feed_title" href="<?php echo $link; ?>" target="_blank"><?php echo $title; ?></a></p>
-                    <span><?php echo $pubDate; ?></span>
                 </div>
                 <div class="post-content">
-                <?php echo implode(' ', array_slice(explode(' ', $description), 0, 20)) . "..."; ?> <a href="<?php echo $link; ?>">Leia Mais</a>
+                <?php echo implode(' ', array_slice(explode(' ', $description), 0, 20)) . "..."; ?> <a href="<?php echo $link; ?>" target="_blank">Leia Mais</a>
                 </div>
+				<hr />
             </div>
 
             <?php $i++;
@@ -75,8 +89,8 @@ function custom_dashboard_help() {
 
 add_filter('login_redirect', 'admin_default_page');
 function admin_default_page() {
-    $home = get_home_url();
-    return $home;
+  $home = get_home_url();
+  return $home;
 }
 
 function cutom_login_logo() {
