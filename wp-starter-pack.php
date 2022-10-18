@@ -12,18 +12,27 @@ Text Domain:  wp-starter-pack
 Domain Path:  /languages
 */
 
-// WooCommerce
-add_filter( 'woocommerce_product_tabs', 'my_remove_product_tabs', 98 );
-function my_remove_product_tabs( $tabs ) {
-  unset( $tabs['additional_information'] );
-  unset( $tabs['reviews'] );
-  return $tabs;
-}
-add_filter( 'woocommerce_format_price_range', 'fa_custom_range_price', 10, 3 );
-function fa_custom_range_price( $price, $from, $to ) {
-  return sprintf( 'A partir de %s', wc_price( $from ) );
+/**
+ * Check if WooCommerce is activated
+ */
+if ( ! function_exists( 'is_woocommerce_activated' ) ) {
+	function is_woocommerce_activated() {
+		if ( class_exists( 'woocommerce' ) ) {
+            add_filter( 'woocommerce_product_tabs', 'my_remove_product_tabs', 98 );
+            function my_remove_product_tabs( $tabs ) {
+                unset( $tabs['additional_information'] );
+                unset( $tabs['reviews'] );
+                return $tabs;
+            }
+            add_filter( 'woocommerce_format_price_range', 'fa_custom_range_price', 10, 3 );
+            function fa_custom_range_price( $price, $from, $to ) {
+                return sprintf( 'A partir de %s', wc_price( $from ) );
+            }
+        } else { return false; }
+	}
 }
 // Fim WooCommerce
+
 // Disable use XML-RPC
 add_filter( 'xmlrpc_enabled', '__return_false' );
 
